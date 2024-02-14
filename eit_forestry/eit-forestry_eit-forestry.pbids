@@ -1,0 +1,1 @@
+{"version":"1.0","connections":[{"details":{"protocol":"mysql","address":{"server":"eit-forestry.mysql.database.azure.com","database":"eit-forestry"}},"options":{"ReturnSingleDatabase":true}}]}

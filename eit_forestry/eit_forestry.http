@@ -1,0 +1,6 @@
+@eit_forestry_HostAddress = http://localhost:5176
+
+GET {{eit_forestry_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
