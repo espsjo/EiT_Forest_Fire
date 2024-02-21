@@ -1,9 +1,9 @@
 .App {
   text-align: center;
+  background-color: #282c34;
 }
-
 .App-logo {
-  height: 40vmin;
+  height: 4vmin;
   pointer-events: none;
   border-radius: 50%;
 }
@@ -16,7 +16,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,4 +36,10 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Sizing of leaflet map container*/
+
+.leaflet-container {
+  height: 80vh;
 }
