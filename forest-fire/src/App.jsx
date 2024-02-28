@@ -32,18 +32,22 @@ function App() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <WarningCircle
-            color={"yellow"}
-            lat={"62.398519442261495"}
-            long={"10.666932529755468"}
-            radius={100}
-          />
-          <WarningCircle
-            color={"red"}
-            lat={"63.398519442261495"}
-            long={"10.666932529758468"}
-            radius={100}
-          />
+          <div style={{ zIndex: 10, position: "absolute" }}>
+            <WarningCircle
+              color={"yellow"}
+              lat={"63.388519442261495"}
+              long={"10.666932529755468"}
+              radius={1000}
+            />
+          </div>
+          <div style={{ zIndex: 1, position: "absolute" }}>
+            <WarningCircle
+              color={"lightgreen"}
+              lat={"63.398519442261495"}
+              long={"10.666932529758468"}
+              radius={1000}
+            />
+          </div>
         </MapContainer>
       </div>
     </div>
