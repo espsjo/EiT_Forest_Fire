@@ -1,4 +1,4 @@
-import "./App.css";
+import "../App.css";
 import { CircleMarker} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import React from "react";
