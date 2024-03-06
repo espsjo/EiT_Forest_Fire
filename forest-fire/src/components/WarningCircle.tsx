@@ -9,6 +9,7 @@ interface WarningCircleProps {
   long: number;
   radius: number;
   popupText: string;
+  popupImage: string;
 }
 const WarningCircle = (props: WarningCircleProps) => {
   const [popupOpen, setPopupOpen] = useState(false);
@@ -17,10 +18,9 @@ const WarningCircle = (props: WarningCircleProps) => {
     setPopupOpen(!popupOpen);
   };
 
-  
-  // UseEffect to make remove the need for double click to see popup again.
+  // UseEffect to remove the need for double click to see popup again.
   useEffect(() => {
-    const handleOutsideClick = (event: any) => {
+    const handleOutsideClick = () => {
       if (popupOpen) {
         setPopupOpen(false);
       }
@@ -31,7 +31,6 @@ const WarningCircle = (props: WarningCircleProps) => {
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
-    
   }, [popupOpen]);
 
   return (
@@ -45,10 +44,26 @@ const WarningCircle = (props: WarningCircleProps) => {
           fillOpacity: 0.7,
         }}
         eventHandlers={{
-          click: handleCircleClick 
+          click: handleCircleClick,
         }}
       ></Circle>
-      {popupOpen && <Popup position={[props.lat, props.long]} >{props.popupText}</Popup>}
+      {popupOpen && (
+        <Popup position={[props.lat, props.long]}>
+          {props.popupText}
+          {props.popupImage && (
+            <img
+              src={props.popupImage}
+              alt="Image"
+              style={{
+                maxWidth: "250px",
+                maxHeight: "190px",
+                display: "block",
+                margin: "10px auto",
+              }}
+            />
+          )}
+        </Popup>
+      )}
     </div>
   );
 };
