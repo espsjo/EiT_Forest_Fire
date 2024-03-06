@@ -9,8 +9,9 @@ interface WarningCircleProps {
   long: number;
   radius: number;
   popupText: string;
-  popupImage: string;
+  popupImage?: string;
 }
+
 const WarningCircle = (props: WarningCircleProps) => {
   const [popupOpen, setPopupOpen] = useState(false);
 
@@ -53,7 +54,7 @@ const WarningCircle = (props: WarningCircleProps) => {
           {props.popupImage && (
             <img
               src={props.popupImage}
-              alt="Image"
+              alt=""
               style={{
                 maxWidth: "250px",
                 maxHeight: "190px",
