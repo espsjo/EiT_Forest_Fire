@@ -12,9 +12,9 @@ function App() {
     const intervalId = setInterval(() => {
       axios
         .get("https://eitforestry20240221144150.azurewebsites.net/prediction")
-        
+
         .then((res) => {
-          console.log(res.data)
+          console.log(res.data);
           setPredictions(res.data);
         })
         .catch((e) => console.log(e));

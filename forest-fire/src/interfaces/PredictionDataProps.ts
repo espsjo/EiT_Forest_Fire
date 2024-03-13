@@ -1,5 +1,5 @@
 export default interface PredictionDataProps {
-    longitude: number;
-    latitude: number;
-    dangerLevel: number;
-  }
+  longitude: number;
+  latitude: number;
+  dangerLevel: number;
+}

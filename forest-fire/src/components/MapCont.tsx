@@ -6,7 +6,7 @@ import React from "react";
 import MapContProps from "../interfaces/MapContProps.ts";
 
 const MapCont = (props: MapContProps) => {
-  const getCircleColor = (dangerLevel) => {
+  const getCircleColor = (dangerLevel: number) => {
     if (dangerLevel >= 0.8) {
       return "red";
     } else if (dangerLevel >= 0.5) {
@@ -16,7 +16,7 @@ const MapCont = (props: MapContProps) => {
     }
   };
 
-  const getPopupText = (dangerLevel) => {
+  const getPopupText = (dangerLevel: number) => {
     if (dangerLevel >= 0.8) {
       return "Her brenner det når som helst";
     } else if (dangerLevel >= 0.5) {
@@ -38,7 +38,7 @@ const MapCont = (props: MapContProps) => {
           color={getCircleColor(prediction.dangerLevel)}
           latitude={prediction.latitude}
           longitude={prediction.longitude}
-          radius={10000}
+          radius={1000}
           popupText={getPopupText(prediction.dangerLevel)}
         />
       ))}
