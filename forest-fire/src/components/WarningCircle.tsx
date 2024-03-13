@@ -2,19 +2,10 @@ import "../App.css";
 import { Circle, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import React, { useEffect, useState } from "react";
-
-interface WarningCircleProps {
-  color: string;
-  lat: number;
-  long: number;
-  radius: number;
-  popupText: string;
-  popupImage?: string;
-}
+import WarningCircleProps from "../interfaces/WarningCircleProps";
 
 const WarningCircle = (props: WarningCircleProps) => {
   const [popupOpen, setPopupOpen] = useState(false);
-
   const handleCircleClick = () => {
     setPopupOpen(!popupOpen);
   };
@@ -37,7 +28,7 @@ const WarningCircle = (props: WarningCircleProps) => {
   return (
     <div>
       <Circle
-        center={[props.lat, props.long]}
+        center={[props.latitude, props.longitude]}
         radius={props.radius}
         pathOptions={{
           fillColor: props.color,
@@ -49,17 +40,17 @@ const WarningCircle = (props: WarningCircleProps) => {
         }}
       ></Circle>
       {popupOpen && (
-        <Popup position={[props.lat, props.long]}>
+        <Popup position={[props.latitude, props.longitude]}>
           {props.popupText}
           {props.popupImage && (
             <img
               src={props.popupImage}
               alt=""
               style={{
-                maxWidth: "250px",
-                maxHeight: "190px",
                 display: "block",
                 margin: "10px auto",
+                maxWidth: "100%",
+                height: "auto",
               }}
             />
           )}
