@@ -1,12 +1,15 @@
-﻿using eit_forestry.Models;
+﻿using eit_forestry.Controllers;
+using eit_forestry.Models;
 using Microsoft.AspNetCore.Mvc;
 namespace eit_forestry.Services
 {
     public class ReadingService
     {
         //One of, if not the most substantial algorithm in the field of fire forestry
+        public readonly ILogger<ReadingService> _logger;
         public ReadingService() 
         {
+          
         }
 
         public static float Algorithm(List<ReadingItem> items) 
@@ -29,7 +32,7 @@ namespace eit_forestry.Services
                 tempSum += item.Temperature;
             }
 
-            tempSum /= 5;
+            tempSum = items.Count > 5 ? tempSum / 5 : tempSum /= items.Count;
             humiditySum /= items.Count;
 
             dangerLevel = tempSum / 20 * dangerLevel;
@@ -50,7 +53,7 @@ namespace eit_forestry.Services
                     break;
             }
             Console.WriteLine($"Danger level is now: {dangerLevel}");
-            dangerLevel = (1.6f-humiditySum) * dangerLevel;
+            dangerLevel = (1.4f-humiditySum) * dangerLevel;
             Console.WriteLine($"Danger level is now: {dangerLevel}");
             return dangerLevel;
         }

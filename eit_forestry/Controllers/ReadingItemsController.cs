@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using eit_forestry.Models;
 using System.Text;
 using eit_forestry.Services;
+using NuGet.Protocol;
+using System.Text.Json.Nodes;
+using System.Globalization;
 
 
 namespace eit_forestry.Controllers
@@ -68,24 +71,35 @@ namespace eit_forestry.Controllers
             readingItem.Humidity = float.Parse(parameters[1])/100;
             readingItem.ReadingTime = DateTime.Now;
             readingItem.DeviceId = messages.messages[0].device.deviceId;
+            _logger.LogInformation("Finding device");
+            var device = await _deviceContext.Device.FindAsync(readingItem.DeviceId);
+            if (device == null)
+            {
+                _logger.LogInformation("Did not find device");
+                return BadRequest();
+            }
+            _logger.LogInformation("Getting weather data");
             using (var client = new HttpClient())
             {
 
                 WeatherReading weather = new WeatherReading();
                 // HTTP GET
-                var device = await _deviceContext.Device.FindAsync(readingItem.DeviceId);
-                if (device == null) return BadRequest();
-                HttpResponseMessage response = await client.GetAsync($"https://api.open-meteo.com/v1/forecast?latitude={device.Latitude}&longitude={device.Longitude}&current=precipitation,wind_speed_10m&hourly=soil_moisture_1_to_3cm");
+                HttpResponseMessage response = await client.GetAsync($"https://api.open-meteo.com/v1/forecast?latitude={device.Latitude.ToString(CultureInfo.InvariantCulture)}&longitude={device.Longitude.ToString(CultureInfo.InvariantCulture)}&current=precipitation,wind_speed_10m&hourly=soil_moisture_1_to_3cm");
                 if (response.IsSuccessStatusCode)
                 {
-                    weather = await response.Content.ReadFromJsonAsync<WeatherReading>();
+                    _logger.LogInformation("Weather data found");
+                    weather = await response.Content.ReadFromJsonAsync<WeatherReading>(); // NOT SURE WHY THIS TURNED INTO A LIST 
                     readingItem.Precipitation = weather.Current.Precipitation;
                     readingItem.WindSpeed = weather.Current.Wind_Speed_10M;
                     readingItem.GroundMoisture = weather.Hourly.Soil_Moisture_1_To_3cm[weather.Hourly.Soil_Moisture_1_To_3cm.Count - 1];
                 }
-                else return BadRequest();
+                else
+                {
+                    _logger.LogInformation("Something went wrong");
+                    return BadRequest();
+                }
             }
-
+            _logger.LogInformation("Updating database");
             _context.ReadingItem.Add(readingItem);
             await _context.SaveChangesAsync();
             return Accepted();
